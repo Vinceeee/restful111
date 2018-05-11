@@ -3,6 +3,9 @@ and returns the titles of those feeds.
 """
 
 import eventlet
+import pprint
+
+printf = pprint.PrettyPrinter(indent=4).pprint
 
 # the pool provides a safety limit on our concurrency
 
@@ -68,15 +71,12 @@ class HandlerWSGI(object):
             return []
 
         func = endpoint[0]
-        pool = eventlet.GreenPool(5)
-        pile = eventlet.GreenPile(pool)
+
         request_body = wsgiInput.read()
         print("request body : " + request_body)  # check request body
-        pile.spawn(func, query_string=query_string, request_body=request_body,
-                   environ=environ)  # All you want could be found in environ
+        printf("start_response detail --> : {0}".format(start_response.__dict__))
+        response = func(environ=environ,start_response=start_response)  # All you want could be found in environ
 
-        response = pile
-        start_response('200 OK', [('Content-type', 'text/plain')])
         return response
 
     def run(self):
