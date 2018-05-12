@@ -81,7 +81,8 @@ class HandlerWSGI(object):
 
     def run(self):
         from eventlet import wsgi
-        wsgi.server(eventlet.listen((self.host, self.port)), self)
+	# the minimun_chunk_size help identity the transimition chunk size , which is very helpful in large file delivery
+        wsgi.server(eventlet.listen((self.host, self.port)),self, minimum_chunk_size=2048*2048)
 
 
 if __name__ == '__main__':
