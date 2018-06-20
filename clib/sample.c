@@ -1,11 +1,23 @@
 #include <math.h>
 #include <unistd.h>
+#include "time.h"
 #include "sample.h"
+
+void looping(){
+    int i = 1;
+    while(1){
+        printf("[%d] -- looping %d ",time(NULL),i);
+        i++;
+        sleep(1);
+        printf("\n");
+    }
+}
 
 void mysleep(int seconds){
     printf("Sleep %d second(s).\n" , seconds);
     sleep(seconds);
 }
+
 /* Compute the greatest common divisor */
 int gcd(int x, int y) {
     int g = y;
@@ -55,4 +67,8 @@ typedef struct Point {
 /* Function involving a C data structure */
 double distance(Point *p1, Point *p2) {
         return hypot(p1->x - p2->x, p1->y - p2->y);
+}
+
+int main(){
+    mysleep(2);
 }

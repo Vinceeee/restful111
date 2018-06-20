@@ -4,11 +4,9 @@ and returns the titles of those feeds.
 """
 
 import eventlet
-from mylogger import getSysLogger
-
+from mylogger import getLocalFileLogger
 
 # the pool provides a safety limit on our concurrency
-
 
 GET = "GET"
 POST = "POST"
@@ -22,10 +20,12 @@ class MyWSGI(object):
     def __init__(self, host='localhost', port=10618):
         self.host = host
         self.port = port
-        self.logger = getSysLogger()
+#       self.logger = getSysLogger()
+        self.logger = getLocalFileLogger()
         self.rules = {}  # url_mapping format : {"/": (func,"method":"GET",...),"/xxx/":(...) ...}
 
     def add_url_rule(self, url, func, **options):
+        self.logger.info("Add url rule {0}".format(url))
         options.setdefault("methods", "GET")
 
         if url in self.rules:
@@ -41,8 +41,6 @@ class MyWSGI(object):
         return deco
 
     def _split_query_string(self, query_string):
-        '''
-        '''
         output_dict = {}
         for group in query_string.split("&"):
             parms = group.split("=")
@@ -51,8 +49,7 @@ class MyWSGI(object):
         return output_dict
 
     def __call__(self, environ, start_response):
-#       self.logger.debug(environ)
-        self.logger.info(environ)
+        self.logger.debug(environ)
 
         urlPath = environ['PATH_INFO']
         method = environ['REQUEST_METHOD'] or GET
@@ -75,7 +72,6 @@ class MyWSGI(object):
         func = endpoint[0]
 
         request_body = wsgiInput.read()
-        self.logger.info("request body : " + str(request_body))  # check request body
         response = func(environ=environ,start_response=start_response)  # All you want could be found in environ
         
         return response

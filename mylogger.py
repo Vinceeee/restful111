@@ -55,12 +55,11 @@ def getSysLogger():
     logger.addHandler(handler)
     return logger
 
-def getLocalFileLogger():
+def getLocalFileLogger(path="/tmp/app.log"):
+    fmt="%(asctime)8s WSGI(%(process)s) - [%(levelname)s] %(filename)s %(message)s"
     # this will log message into /var/log/message
-    fmt = "WSGI - [%(levelname)s] %(pathname)s %(message)s"
     formatter = logging.Formatter(fmt)
-#   handler = SysLogHandler(address="/dev/log",facility=SysLogHandler.LOG_LOCAL0)
-    handler = logging.FileHandler("this.log")
+    handler = logging.FileHandler(path)
     handler.setFormatter(formatter)
     logger = logging.getLogger(__name__)
     logger.addHandler(handler)

@@ -1,7 +1,8 @@
+import re
 import six
 import time
 from mywsgi import MyWSGI
-from clib.sample import mysleep
+from clib.sample import mysleep,looping
 
 app = MyWSGI(host="127.0.0.1",port=10618)
 
@@ -17,11 +18,23 @@ def do_sth1(environ,start_response):
 
 @app.route("/a")
 def do_a(environ,start_response):
-    mysleep(5)
+    from datetime import datetime
+    sleeps = 5 # by default 5 seconds
+    if "QUERY_STRING" in environ:
+        sleeps = re.findall("sleeps=(\d{1,3})",environ.get("QUERY_STRING")) 
+        sleeps = int(sleeps[0]) if sleeps else 5
+    mysleep(sleeps)
     start_response('200 OK', [('Content-type', 'text/plain')])
-    resp = "{0} - aaabbbccc".format(str(time.time()))
-    print(resp)
-    yield bytes(resp.encode('utf8'))
+    resp = "{0} - aaabbbccc".format(str(datetime.now()))
+    app.logger.info(resp)
+#   yield bytes(resp.encode('utf8'))
+    yield resp
+
+@app.route("/looping")
+def do_loop(environ,start_response):
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    looping()
+    yield u""
 
 @app.route("/a1",methods="POST")
 def do_sth2(*args, **kargs):
