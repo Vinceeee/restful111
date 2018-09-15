@@ -1,5 +1,6 @@
 #include<stdio.h>
 void looping();
+void testInt(long long num);
 void mysleep(int seconds);
 int gcd(int x, int y);
 int in_mandel(double x0, double y0, int n);
