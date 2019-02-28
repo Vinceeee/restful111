@@ -1,9 +1,11 @@
-#!/usr/bin/env python3.6
+#!/usr/bin/env python
 """A simple web server that accepts POSTS containing a list of feed urls,
 and returns the titles of those feeds.
 """
 
+import os
 import eventlet
+from eventlet.tpool import execute
 from mylogger import getLocalFileLogger
 
 # the pool provides a safety limit on our concurrency
@@ -16,20 +18,27 @@ HEAD = "HEAD"
 
 
 class MyWSGI(object):
-
-    def __init__(self, host='localhost', port=10618):
+    def __init__(self,
+                 host='localhost',
+                 port=10618,
+                 logger=getLocalFileLogger(),
+                 pool=1000):
         self.host = host
         self.port = port
-#       self.logger = getSysLogger()
-        self.logger = getLocalFileLogger()
-        self.rules = {}  # url_mapping format : {"/": (func,"method":"GET",...),"/xxx/":(...) ...}
+        #       self.logger = getSysLogger()
+        self.logger = logger
+        self.rules = {
+        }  # url_mapping format : {"/": (func,"method":"GET",...),"/xxx/":(...) ...}
+        os.environ['EVENTLET_THREADPOOL_SIZE'] = str(pool)
 
     def add_url_rule(self, url, func, **options):
         self.logger.info("Add url rule {0}".format(url))
         options.setdefault("methods", "GET")
 
         if url in self.rules:
-            raise AssertionError("Function mapping is overwriting an existing endpoint : {0}".format(func.__name__))
+            raise AssertionError(
+                "Function mapping is overwriting an existing endpoint : {0}".
+                format(func.__name__))
 
         self.rules[url] = (func, options)
 
@@ -53,7 +62,6 @@ class MyWSGI(object):
 
         urlPath = environ['PATH_INFO']
         method = environ['REQUEST_METHOD'] or GET
-        wsgiInput = environ['wsgi.input']  # it is a eventlet.wsgi.Input Object
 
         # formating the dict for query_strings
         if "QUERY_STRING" in environ and environ["QUERY_STRING"]:
@@ -66,21 +74,31 @@ class MyWSGI(object):
 
         endpoint = self.rules[urlPath]
         if method not in endpoint[1]['methods']:
-            start_response('405 Method Not Allowed', [('Content-type', 'text/plain')])
+            start_response('405 Method Not Allowed',
+                           [('Content-type', 'text/plain')])
             return []
 
         func = endpoint[0]
 
-        request_body = wsgiInput.read()
-        response = func(environ=environ,start_response=start_response)  # All you want could be found in environ
-        
+        #       request_body = wsgiInput.read()
+        response = execute(
+            func, environ=environ, start_response=start_response
+        )  # All you want could be found in environ
+
         return response
 
     def run(self):
         from eventlet import wsgi
-	# the minimun_chunk_size help identity the transimition chunk size , which is very helpful in large file delivery
-        self.logger.info("if you see this line in the log , that means this one is not a release version !")
-        wsgi.server(eventlet.listen((self.host, self.port)),self,log=self.logger, minimum_chunk_size=2048*2048)
+        # the minimun_chunk_size help identity the transimition chunk size , which is very helpful in large file delivery
+        self.logger.info(
+            "if you see this line in the log , that means this one is not a release version !"
+        )
+        wsgi.server(
+            eventlet.listen((self.host, self.port)),
+            self,
+            log=self.logger,
+            minimum_chunk_size=2048 * 2048)
+
 
 if __name__ == '__main__':
     app = MyWSGI()
