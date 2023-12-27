@@ -68,6 +68,13 @@ def dosth(*args, **kargs):
     start_response('200 OK', [('Content-type', 'text/plain')])
     return "done by dosth"
 
+@app.route("/dosth2")
+def dosth2(*args, **kargs):
+    doSth(2)
+    start_response = kargs["start_response"]
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    return "done by dosth"
+
 
 if __name__ == '__main__':
     app.run()
