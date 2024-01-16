@@ -15,6 +15,7 @@ POST = "POST"
 PUT = "PUT"
 DELETE = "DELETE"
 HEAD = "HEAD"
+PATCH = "PATCH"
 
 
 class MyWSGI(object):
