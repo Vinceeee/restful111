@@ -21,7 +21,7 @@ OPTIONS = "OPTIONS"
 
 class MyWSGI(object):
     def __init__(self,
-                 host='localhost',
+                 host='127.0.0.1',
                  port=10618,
                  logger=getLocalFileLogger(),
                  pool=1000):
