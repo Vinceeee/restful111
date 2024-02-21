@@ -70,9 +70,9 @@ def dosth(*args, **kargs):
 
 @app.route("/dosth2")
 def dosth2(*args, **kargs):
-    doSth(2)
+    doSth(5)
     start_response = kargs["start_response"]
-    start_response('201 OK', [('Content-type', 'text/plain')])
+    start_response('202 OK', [('Content-type', 'text/plain')])
     return "done by dosth"
 
 
