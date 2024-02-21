@@ -72,7 +72,7 @@ def dosth(*args, **kargs):
 def dosth2(*args, **kargs):
     doSth(2)
     start_response = kargs["start_response"]
-    start_response('200 OK', [('Content-type', 'text/plain')])
+    start_response('201 OK', [('Content-type', 'text/plain')])
     return "done by dosth"
 
 

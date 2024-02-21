@@ -27,7 +27,6 @@ class MyWSGI(object):
                  pool=1000):
         self.host = host
         self.port = port
-        #       self.logger = getSysLogger()
         self.logger = logger
         self.rules = {
         }  # url_mapping format : {"/": (func,"method":"GET",...),"/xxx/":(...) ...}
