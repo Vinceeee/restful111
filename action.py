@@ -49,7 +49,7 @@ def do_sth2(*args, **kargs):
 
     start_response('200 OK', [('Content-type', 'text/plain')])
     for i in range(10):
-        time.sleep(0.2)
+        time.sleep(0.4)
         print(i * 10)
         yield "{0} -- hello world \n".format(str(i))
 
