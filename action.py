@@ -15,7 +15,7 @@ def do_sth1(environ, start_response):
     # do some handling ...
     start_response('200 OK', [('Content-type', 'text/plain')])
     for i in xrange(
-            999
+            1004
     ):  # for python 2 , range will return a list instead of iterable , which waste memory a lot , but xrange is fine ^_^
         yield b"010"
 
