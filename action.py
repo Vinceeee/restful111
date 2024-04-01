@@ -37,8 +37,7 @@ def do_a(environ, start_response):
 
 @app.route("/looping")
 def do_loop(environ, start_response):
-    start_response('200 OK', [('Content-type', 'text/plain')])
-    looping()
+    start_response('201 OK', [('Content-type', 'text/plain')])
     yield u""
 
 
