@@ -52,7 +52,6 @@ def do_sth2(*args, **kargs):
         print(i * 10)
         yield "{0} -- hello world \n".format(str(i))
 
-
 @app.route("/a2", methods=["GET", "POST"])
 def do_sth3(*args, **kargs):
     start_response = kargs["start_response"]
