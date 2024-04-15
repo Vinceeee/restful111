@@ -101,8 +101,12 @@ class MyWSGI(object):
             minimum_chunk_size=2048 * 2048)
 
 
-    def test(self):
-        pass
+    def test_quicksort(self, arr):
+        # 实现快排
+        if len(arr) <= 1:
+            return arr
+
+
 
 if __name__ == '__main__':
     app = MyWSGI()
