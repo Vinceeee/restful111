@@ -14,9 +14,6 @@ GET = "GET"
 POST = "POST"
 PUT = "PUT"
 DELETE = "DELETE"
-HEAD = "HEAD"
-PATCH = "PATCH"
-OPTIONS = "OPTIONS"
 
 
 class MyWSGI(object):
@@ -99,12 +96,6 @@ class MyWSGI(object):
             self,
             log=self.logger,
             minimum_chunk_size=2048 * 2048)
-
-
-    def test_quicksort(self, arr):
-        # 实现快排
-        if len(arr) <= 1:
-            return arr
 
 
 
