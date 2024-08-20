@@ -11,13 +11,5 @@ def streamMD5(file):
 
     return md5.hexdigest()
 
-def streamSha(f: str):
-    sha = hashlib.sha256()
-    with open(f,"r") as f:
-        while True:
-            chunk = f.read(1024*1024*3)
-            if not chunk:
-                break
-            sha.update(chunk)
-
-    return sha.hexdigest()
+# 写一个aes加密
+def aes_

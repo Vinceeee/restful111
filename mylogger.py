@@ -35,7 +35,6 @@ def getLocalFileLogger(path="/tmp/app.log", level=logging.INFO):
     logger.setLevel(level)
     return logger
 
-
 def getRotatingLogger():
     import glob
     LOG_FILENAME = 'logging_rotatingfile_example.out'
