@@ -15,7 +15,7 @@ def getSysLogger():
     logger.setLevel(logging.DEBUG)
     fmt = "[%(levelname)s] %(pathname)s %(message)s"
     formatter = logging.Formatter(fmt)
-    handler = SysLogHandler(address="/dev/log")
+    handler = SysLogHandler(address="/tmp/log")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     return logger
