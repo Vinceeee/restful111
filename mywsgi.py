@@ -19,9 +19,9 @@ DELETE = "DELETE"
 class MyWSGI(object):
     def __init__(self,
                  host='127.0.0.1',
-                 port=10620,
+                 port=123456,
                  logger=getLocalFileLogger(),
-                 pool=1000):
+                 pool=128):
         self.host = host
         self.port = port
         self.logger = logger
