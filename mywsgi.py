@@ -20,7 +20,7 @@ PATCH = "PATCH"
 class MyWSGI(object):
     def __init__(self,
                  host='127.0.0.1',
-                 port=12345,
+                 port=23456,
                  logger=getLocalFileLogger(),
                  pool=256):
         self.host = host
