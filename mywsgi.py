@@ -14,14 +14,15 @@ GET = "GET"
 POST = "POST"
 PUT = "PUT"
 DELETE = "DELETE"
+PATCH = "PATCH"
 
 
 class MyWSGI(object):
     def __init__(self,
                  host='127.0.0.1',
-                 port=123456,
+                 port=12345,
                  logger=getLocalFileLogger(),
-                 pool=128):
+                 pool=256):
         self.host = host
         self.port = port
         self.logger = logger
