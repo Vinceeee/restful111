@@ -3,10 +3,11 @@
 import logging
 import logging.handlers
 from logging.handlers import SysLogHandler
-'''
+
+"""
 python logging usage
 more info could be found in https://docs.python.org/3.6/howto/logging-cookbook.html#context-info
-'''
+"""
 
 
 def getSysLogger():
@@ -35,12 +36,14 @@ def getLocalFileLogger(path="/tmp/app.log", level=logging.INFO):
     logger.setLevel(level)
     return logger
 
+
 def getRotatingLogger():
     import glob
-    LOG_FILENAME = 'logging_rotatingfile_example.out'
+
+    LOG_FILENAME = "logging_rotatingfile_example.out"
 
     # Set up a specific logger with our desired output level
-    my_logger = logging.getLogger('MyLogger')
+    my_logger = logging.getLogger("MyLogger")
     my_logger.setLevel(logging.DEBUG)
 
     fmt = "[%(levelname)s] %(pathname)s %(message)s"
@@ -48,17 +51,18 @@ def getRotatingLogger():
 
     # Add the log message handler to the logger
     handler = logging.handlers.RotatingFileHandler(
-        LOG_FILENAME, maxBytes=20, backupCount=5)
+        LOG_FILENAME, maxBytes=20, backupCount=5
+    )
     handler.setFormatter(formatter)
 
     my_logger.addHandler(handler)
 
     # Log some messages
     for i in range(20):
-        my_logger.debug('i = %d' % i)
+        my_logger.debug("i = %d" % i)
 
         # See what files are created
-        logfiles = glob.glob('%s*' % LOG_FILENAME)
+        logfiles = glob.glob("%s*" % LOG_FILENAME)
 
         for filename in logfiles:
             print(filename)
@@ -73,7 +77,7 @@ def main():
     logger.critical("this is a critical test")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logger = getLocalFileLogger()
     logger.info("sdfasdfasd")
     pass
